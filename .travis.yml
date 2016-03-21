@@ -1,214 +1,104 @@
+# Use new container infrastructure to enable caching
 sudo: false
+
+# Choose a lightweight base image; we provide our own build tools.
 language: c
 
-matrix:
-  include:
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=none
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=sqlite
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=zookeeper
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=mongodb
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-    services:
-    - mongodb
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=postgresql
-    addons:
-      postgresql: "9.3"
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=mysql
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.6.3
-        - cabal-install-1.18
-    services:
-    - mysql
-
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=none
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=sqlite
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=zookeeper
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=mongodb
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-    services:
-    - mongodb
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=postgresql
-    addons:
-      postgresql: "9.3"
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=mysql
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.8.4
-        - cabal-install-1.18
-    services:
-    - mysql
-
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=none
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=sqlite
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=zookeeper
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-        - libzookeeper-mt-dev
-        - zookeeperd
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=mongodb
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-    services:
-    - mongodb
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=postgresql
-    addons:
-      postgresql: "9.3"
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=mysql
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-7.10.2
-        - cabal-install-1.22
-    services:
-    - mysql
-
-  - env: GHCVER=head CABALVER=head BACKEND=none
-    addons:
-      apt:
-        sources:
-        - hvr-ghc
-        packages:
-        - ghc-head
-        - cabal-install-head
-        - libzookeeper-mt-dev
-        - zookeeperd
-
-  allow_failures:
-  - env: GHCVER=head CABALVER=head BACKEND=none
-
-  # See: https://github.com/yesodweb/persistent/issues/460
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=sqlite
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=zookeeper
-  - env: GHCVER=7.8.4 CABALVER=1.18 BACKEND=zookeeper
-  - env: GHCVER=7.10.2 CABALVER=1.22 BACKEND=zookeeper
-
-  # 7.6.3. Probably aeson-extra needs to loosen a lower bounds
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=none
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=mongodb
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=postgresql
-  - env: GHCVER=7.6.3 CABALVER=1.18 BACKEND=mysql
-
-before_install:
-- travis_retry /opt/cabal/$CABALVER/bin/cabal update
-
-script: travis/run.sh
-
+# Caching so the next build will be fast too.
 cache:
   directories:
-  - $HOME/.cabal
   - $HOME/.ghc
+  - $HOME/.cabal
+  - $HOME/.stack
+
+# The different configurations we want to test. We have BUILD=cabal which uses
+# cabal-install, and BUILD=stack which uses Stack. More documentation on each
+# of those below.
+#
+# We set the compiler values here to tell Travis to use a different
+# cache file per set of arguments.
+#
+# If you need to have different apt packages for each combination in the
+# matrix, you can use a line such as:
+#     addons: {apt: {packages: [libfcgi-dev,libgmp-dev]}}
+matrix:
+  include:
+  # The Stack builds. We can pass in arbitrary Stack arguments via the ARGS
+  # variable, such as using --stack-yaml to point to a different file.
+  - env: BUILD=stack ARGS="--resolver lts-2" BACKEND=none
+    compiler: ": #stack 7.8.4"
+    addons: {apt: {packages: [ghc-7.8.4], sources: [hvr-ghc]}}
+
+  - env: BUILD=stack ARGS="--resolver lts-5" BACKEND=none
+    compiler: ": #stack 7.10.3"
+    addons: {apt: {packages: [ghc-7.10.3], sources: [hvr-ghc]}}
+
+  # Nightly builds are allowed to fail
+  - env: BUILD=stack ARGS="--resolver nightly" BACKEND=none
+    compiler: ": #stack nightly"
+    addons: {apt: {packages: [libgmp-dev]}}
+
+  allow_failures:
+  - env: BUILD=cabal GHCVER=head  CABALVER=head
+  - env: BUILD=stack ARGS="--resolver nightly"
+
+before_install:
+# Using compiler above sets CC to an invalid value, so unset it
+- unset CC
+
+# We want to always allow newer versions of packages when building on GHC HEAD
+- CABALARGS=""
+- if [ "x$GHCVER" = "xhead" ]; then CABALARGS=--allow-newer; fi
+
+# Download and unpack the stack executable
+- export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$HOME/.local/bin:$PATH
+- mkdir -p ~/.local/bin
+- |
+  if [ `uname` = "Darwin" ]
+  then
+    curl --insecure -L https://www.stackage.org/stack/osx-x86_64 | tar xz --strip-components=1 --include '*/stack' -C ~/.local/bin
+  else
+    curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  fi
+
+install:
+- echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
+- if [ -f configure.ac ]; then autoreconf -i; fi
+- |
+  case "$BUILD" in
+    stack)
+      stack --no-terminal --install-ghc $ARGS test --only-dependencies
+      ;;
+    cabal)
+      cabal --version
+      travis_retry cabal update
+      cd persistent-test
+      if [ "$BACKEND" = "none" ]
+      then
+        cabal install --force-reinstalls --only-dependencies --enable-tests --ghc-options=-O0 --reorder-goals --max-backjumps=-1 $CABALARGS $(cat sources.txt)
+      else
+        cabal install --force-reinstalls --only-dependencies --enable-tests -f$BACKEND --ghc-options=-O0 --reorder-goals --max-backjumps=-1 $CABALARGS
+      fi
+      ;;
+  esac
+
+script:
+- |
+  export BACKEND=none
+  function output_every_minute(){
+    sleep 60
+    echo "ignore: travis keep-alive"
+  }
+  output_every_minute &
+  case "$BUILD" in
+    stack)
+      stack --no-terminal $ARGS test --haddock --no-haddock-deps
+      ;;
+    cabal)
+      # Make sure we get regular output sent to Travis to avoid it canceling our
+      # builds
+      cabal configure --enable-tests -f$BACKEND
+      cabal build
+      cabal test
+      ;;
+  esac

@@ -1,4 +1,4 @@
-resolver: lts-3.14
+resolver: lts-5.8
 packages:
   - ./persistent
   - ./persistent-template
@@ -12,6 +12,8 @@ packages:
 
 extra-deps:
   - aeson-compat-0.3.0.0
-  - aeson-0.10.0.0
+  - aeson-extra-0.3.1.1
   - attoparsec-0.13.0.1
   - http-api-data-0.2
+  - recursion-schemes-4.1.2
+  - time-parsers-0.1.0.0
