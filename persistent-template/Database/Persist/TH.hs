@@ -965,7 +965,7 @@ mkEntity mps t = do
        dtd : mconcat fkc `mappend`
       ([ TySynD (keyIdName t) [] $
             ConT ''Key `AppT` ConT (mkName nameS)
-      , InstanceD instanceConstraint clazz $
+      , instanceD instanceConstraint clazz $
         [ uniqueTypeDec mps t
         , keyTypeDec
         , keyToValues'
@@ -1207,7 +1207,7 @@ mkDeleteCascade mps defs = do
         let entityT = genericDataType mps name backendT
 
         return $
-            InstanceD
+            instanceD
             [ mkClassP ''PersistQuery [backendT]
             , mkEqualP (ConT ''PersistEntityBackend `AppT` entityT) backendT
             ]
@@ -1251,7 +1251,7 @@ typeInstanceD :: Name
               -> Bool -- ^ include PersistStore backend constraint
               -> Type -> [Dec] -> Dec
 typeInstanceD clazz hasBackend typ =
-    InstanceD ctx (ConT clazz `AppT` typ)
+    instanceD ctx (ConT clazz `AppT` typ)
   where
     ctx
         | hasBackend = [mkClassP ''PersistStore [backendT]]
@@ -1599,6 +1599,12 @@ isStrict :: Strict
 isStrict = IsStrict
 #endif
 
+instanceD :: Cxt -> Type -> [Dec] -> Dec
+#if MIN_VERSION_template_haskell(2,11,0)
+instanceD = InstanceD Nothing
+#else
+instanceD = InstanceD
+#endif
 
 -- entityUpdates :: EntityDef -> [(HaskellName, FieldType, IsNullable, PersistUpdate)]
 -- entityUpdates =
