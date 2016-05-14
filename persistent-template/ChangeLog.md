@@ -1,3 +1,7 @@
+## 2.1.8.1
+
+* fix a bad Eq instance /= definition for Key when mpsGenetric=True
+
 ## 2.1.7
 
 * Support for GHC 8 [#556](https://github.com/yesodweb/persistent/issues/556)
