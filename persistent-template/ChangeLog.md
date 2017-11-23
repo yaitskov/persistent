@@ -1,3 +1,7 @@
+## 2.5.4
+
+* Derive Generic for Keys
+
 ## 2.5.3
 
 * Exposed `parseReferences` to allow custom QuasiQuoters
